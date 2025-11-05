@@ -1,0 +1,383 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #98FB98 0%, #000000 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.snake-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  width: 100%;
+}
+
+.snake-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.game-title {
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+
+.game-title h1 {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+
+.snake-game {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  background: #293447;
+  box-shadow: 0 20px 40px rgba(52, 87, 220, 0.3);
+  overflow: hidden;
+}
+
+.snake-header {
+  color: #B8C6DC;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a2230;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.score-info {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.speed {
+  color: #52fa52;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pause-btn {
+  background: #34495e;
+  border: none;
+  color: #B8C6DC;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pause-btn:hover {
+  background: #4a6572;
+  transform: translateY(-1px);
+}
+
+.play-board {
+  aspect-ratio: 1 / 1;
+  background: #050505;
+  display: grid;
+  grid-template: repeat(30, 1fr) / repeat(30, 1fr);
+  position: relative;
+}
+
+.paused-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.paused-text {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.5; }
+}
+
+.play-board .food {
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+  border: 1px solid;
+}
+
+.play-board .food.normal {
+  background: #ff0000;
+  border-color: #ff6666;
+}
+
+.play-board .food.special {
+  background: #ffd700;
+  border-color: #ffed4e;
+  animation: specialPulse 0.8s infinite;
+}
+
+@keyframes specialPulse {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.play-board .head {
+  background: linear-gradient(135deg, #52fa52 0%, #418a42 100%);
+  border-radius: 25%;
+  z-index: 2;
+  border: 1px solid #76d476;
+}
+
+.play-board .body {
+  background: linear-gradient(135deg, #76d476 0%, #4caf50 100%);
+  border-radius: 30%;
+  border: 1px solid #66bb6a;
+}
+
+.game-instructions {
+  padding: 15px 20px;
+  background: #1a2230;
+  color: #B8C6DC;
+  text-align: center;
+  font-size: 0.85rem;
+  border-top: 1px solid #34495e;
+  line-height: 1.4;
+}
+
+.game-instructions p {
+  margin: 5px 0;
+}
+
+.snake-color {
+  color: #52fa52;
+  font-weight: 600;
+}
+
+.food-color {
+  color: #ff4444;
+  font-weight: 600;
+}
+
+.special-food-color {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.mobile-controls {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: #1a2230;
+  border-top: 1px solid #34495e;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.control-btn {
+  padding: 20px 25px;
+  border: none;
+  background: #34495e;
+  color: #B8C6DC;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn:hover {
+  background: #4a6572;
+  transform: translateY(-2px);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+  background: #2c3e50;
+}
+
+.pause-mobile {
+  background: #e74c3c;
+  font-size: 1.3rem;
+  padding: 20px;
+}
+
+.pause-mobile:hover {
+  background: #c0392b;
+}
+
+/* Focus styles for accessibility */
+.control-btn:focus,
+.pause-btn:focus {
+  outline: 2px solid #52fa52;
+  outline-offset: 2px;
+}
+
+/* Desktop styles */
+@media screen and (min-width: 769px) {
+  .mobile-controls {
+    display: none !important;
+  }
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 768px) {
+  .snake-wrapper {
+    padding: 10px;
+    align-items: flex-start;
+    min-height: 100vh;
+    height: 100vh;
+  }
+
+  .snake-container {
+    gap: 15px;
+    height: 100%;
+  }
+
+  .game-title h1 {
+    font-size: 2rem;
+  }
+
+  .snake-game {
+    max-width: 100%;
+    height: auto;
+    flex: 1;
+  }
+
+  .snake-header {
+    font-size: 0.9rem;
+    padding: 12px 15px;
+  }
+
+  .score-info {
+    gap: 10px;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .speed {
+    font-size: 0.8rem;
+  }
+
+  .pause-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .play-board {
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+  }
+
+  .mobile-controls {
+    display: flex;
+  }
+
+  .control-btn {
+    padding: 18px 22px;
+    font-size: 1.4rem;
+    min-width: 70px;
+  }
+
+  .game-instructions {
+    font-size: 0.8rem;
+    padding: 12px 15px;
+  }
+
+  .paused-text {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .game-title h1 {
+    font-size: 1.8rem;
+  }
+
+  .snake-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .score-info {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .control-btn {
+    padding: 16px 20px;
+    font-size: 1.3rem;
+    min-width: 65px;
+  }
+
+  .controls-row {
+    gap: 10px;
+  }
+
+  .paused-text {
+    font-size: 2rem;
+  }
+}
+
+/* Very small screens */
+@media screen and (max-width: 360px) {
+  .control-btn {
+    padding: 14px 18px;
+    font-size: 1.2rem;
+    min-width: 60px;
+  }
+  
+  .game-title h1 {
+    font-size: 1.6rem;
+  }
+}
